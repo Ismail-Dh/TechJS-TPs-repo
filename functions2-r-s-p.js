@@ -72,7 +72,7 @@ function playGame(playerMove) {
     <img src="images/${playerMove}-emoji.png" class="move-icon">
     <img src="images/${computerMove}-emoji.png" class="move-icon">
     computer
-    }
+    
   `;
 
   updateScoreElement();
@@ -99,3 +99,20 @@ function pickComputerMove() {
 
   return computerMove;
 }
+  
+    let autoPlayInterval;
+  
+  document.querySelector('.js-auto-play-button')
+    .addEventListener('click', () => {
+      if (autoPlayInterval) {
+        clearInterval(autoPlayInterval);
+        autoPlayInterval = null;
+        document.querySelector('.js-auto-play-button').textContent = 'Auto Play';
+      } else {
+        autoPlayInterval = setInterval(() => {
+         const randomMove = pickComputerMove();
+          playGame(randomMove);
+        }, 1000);
+        document.querySelector('.js-auto-play-button').textContent = 'Stop Auto Play';
+      }
+    });
