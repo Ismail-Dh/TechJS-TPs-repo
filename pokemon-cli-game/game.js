@@ -8,25 +8,23 @@ const API_URL = 'https://pokeapi.co/api/v2/pokemon/';
 let player = { name: '', hp: 300, moves: [] };
 let bot = { name: '', hp: 300, moves: [] };
 
-// Récupérer les infos d’un Pokémon depuis l’API
 async function getPokemon(name) {
   try {
     const res = await axios.get(API_URL + name.toLowerCase());
     const data = res.data;
     const moves = data.moves.slice(0, 5).map(m => ({
       name: m.move.name,
-      power: Math.floor(Math.random() * 50) + 30, // puissance aléatoire
-      accuracy: Math.floor(Math.random() * 30) + 70, // précision 70–100%
+      power: Math.floor(Math.random() * 50) + 30, 
+      accuracy: Math.floor(Math.random() * 30) + 70, 
       pp: Math.floor(Math.random() * 10) + 5
     }));
     return { name: data.name, hp: 300, moves };
   } catch (err) {
-    console.log(chalk.red('❌ Pokémon introuvable.'));
+    console.log(chalk.red('Pokémon introuvable.'));
     return null;
   }
 }
 
-// Lancer une attaque
 function attack(attacker, defender, move) {
   if (move.pp <= 0) {
     console.log(chalk.gray(`${attacker.name} n’a plus de PP pour ${move.name}!`));
@@ -45,14 +43,13 @@ function attack(attacker, defender, move) {
   console.log(chalk.green(`${attacker.name} utilise ${move.name} (-${move.power} HP)`));
 }
 
-// Vérifier la fin du combat
 function checkWinner() {
   if (player.hp <= 0) {
-    console.log(chalk.red(`💀 ${player.name} a perdu !`));
+    console.log(chalk.red(` ${player.name} a perdu !`));
     return true;
   }
   if (bot.hp <= 0) {
-    console.log(chalk.green(`🏆 ${player.name} a gagné !`));
+    console.log(chalk.green(` ${player.name} a gagné !`));
     return true;
   }
   return false;
